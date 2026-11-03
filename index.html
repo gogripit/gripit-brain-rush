@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071b35">
+<title>GRIPIT Monday Brain Rush</title>
+<style>
+:root{--blue:#035ba9;--yellow:#ffca05;--navy:#071b35;--navy2:#0b2948;--white:#fff;--muted:#b8c9da;--green:#25b887;--red:#ff7272}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;padding:20px 14px 30px;background:radial-gradient(ellipse at 50% -15%,#14558d 0%,#0b3155 36%,#06172c 78%);font-family:Inter,Arial,sans-serif;color:var(--white);display:flex;justify-content:center;align-items:center}
+button{font:inherit}
+.shell{width:100%;max-width:540px;margin:auto}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 3px 18px}
+.brand-logo{display:block;width:125px;max-height:52px;object-fit:contain;object-position:left center}
+.edition{font-size:10px;letter-spacing:.16em;color:#c2d5e7;text-align:right;font-weight:800}
+.panel{background:linear-gradient(155deg,rgba(255,255,255,.115),rgba(255,255,255,.045));border:1px solid rgba(255,255,255,.17);border-radius:24px;padding:24px 20px;box-shadow:0 24px 70px #0005;backdrop-filter:blur(14px)}
+.eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--yellow);font-weight:900}
+h1{font-size:clamp(35px,9vw,54px);line-height:.96;letter-spacing:-.055em;margin:13px 0 12px;font-weight:950}
+h1 span{color:var(--yellow)}
+.sub{font-size:14px;line-height:1.6;color:#d1deeb;margin:0 0 22px}
+.label{display:block;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#d2e0ed;margin:0 0 8px}
+input{width:100%;border:1px solid #ffffff3b;background:#061a30;color:#fff;border-radius:12px;padding:15px 14px;outline:none;font-size:16px}
+input:focus{border-color:var(--yellow);box-shadow:0 0 0 3px #ffca0520}
+input::placeholder{color:#8fa5ba}
+.btn{border:0;border-radius:12px;background:var(--yellow);color:#10243d;font-weight:900;padding:15px 18px;cursor:pointer;transition:transform .15s,filter .15s}
+.btn:active{transform:scale(.985)}
+.btn:hover{filter:brightness(1.04)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.secondary{background:#ffffff10;color:#fff;border:1px solid #ffffff35}
+.full{width:100%;margin-top:13px}
+.note{font-size:11px;line-height:1.5;color:#9fb3c7;margin:14px 0 0}
+.meta{display:flex;justify-content:space-between;gap:7px;margin-bottom:15px}
+.pill{border:1px solid #ffffff25;background:#ffffff0d;border-radius:999px;padding:9px 11px;font-size:10px;letter-spacing:.06em;color:#d9e5f0;white-space:nowrap}
+.pill b{color:var(--yellow);font-size:13px;margin-left:4px}
+.progress{height:5px;background:#ffffff20;border-radius:9px;overflow:hidden;margin:0 0 19px}
+.progress i{height:100%;width:0;display:block;background:var(--yellow);transition:width .25s}
+.question-card{background:#f7f9fc;color:#10243d;border-radius:17px;padding:20px 18px;margin-bottom:16px;min-height:145px;display:flex;flex-direction:column;justify-content:center}
+.qtype{font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:900;color:var(--blue)}
+.qtext{font-size:20px;line-height:1.35;font-weight:850;letter-spacing:-.025em;margin:11px 0 0}
+.options{display:grid;gap:9px}
+.option{width:100%;text-align:left;display:flex;align-items:center;gap:11px;border:1px solid #ffffff35;background:#092542;color:#f5f8fb;border-radius:13px;padding:13px 12px;cursor:pointer;font-size:14px;font-weight:700;line-height:1.35;transition:background .15s,border .15s,transform .15s}
+.option:hover:not(:disabled){background:#10385f;border-color:#75a9d5;transform:translateY(-1px)}
+.option:disabled{cursor:default;opacity:1}
+.letter{flex:0 0 27px;width:27px;height:27px;border-radius:8px;display:grid;place-items:center;background:#ffffff16;color:#dce9f5;font-size:11px;font-weight:900}
+.option.correct{border-color:var(--green);background:#0b4b42}
+.option.correct .letter{background:var(--green);color:#062b25}
+.option.wrong{border-color:var(--red);background:#4a2934}
+.option.wrong .letter{background:var(--red);color:#35131c}
+.feedback{display:none;margin-top:13px;border-radius:12px;padding:13px;background:#ffffff0e;border:1px solid #ffffff24}
+.feedback.show{display:block}
+.feedback-title{font-weight:900;font-size:13px;margin-bottom:5px;color:var(--yellow)}
+.feedback-copy{font-size:12px;line-height:1.5;color:#d5e1ec}
+.feedback-copy strong{color:#fff}
+.next-wrap{display:none}
+.next-wrap.show{display:block}
+.center{text-align:center}
+.score{font-size:72px;line-height:1;font-weight:950;color:var(--yellow);letter-spacing:-.07em;margin:20px 0 5px}
+.result-title{font-size:22px;font-weight:950;margin:8px 0}
+.result-copy{font-size:14px;line-height:1.6;color:#d1deeb}
+.summary{margin:20px 0 0;text-align:left;border-top:1px solid #ffffff25;padding-top:12px}
+.summary div{display:flex;justify-content:space-between;gap:10px;padding:9px 0;font-size:12px;color:#d9e5f0;border-bottom:1px solid #ffffff12}
+.summary strong{color:var(--yellow);text-align:right}
+.footer{text-align:center;color:#91a9c0;font-size:10px;letter-spacing:.13em;margin-top:17px}
+.hide{display:none!important}
+@media(min-width:600px){body{padding:28px 18px}.panel{padding:29px 25px}}
+@media(max-width:370px){.panel{padding:20px 15px}.pill{padding:8px 8px;font-size:9px}.qtext{font-size:18px}}
+</style>
+</head>
+<body>
+<main class="shell">
+<header class="top">
+  <div class="brand"><img class="brand-logo" src="data:image/png;base64,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" alt="GRIPIT logo"></div>
+  <div class="edition">MONDAY CHALLENGE<br>VOL. 01</div>
+</header>
+
+<section class="panel" id="intro">
+  <div class="eyebrow">A quick GRIPIT team challenge</div>
+  <h1>MONDAY<br><span>BRAIN RUSH.</span></h1>
+  <p class="sub">Five quick questions. Four options each. One sharp mind.<br>Think fast, choose smart and start your week strong.</p>
+  <label class="label" for="player">Your name</label>
+  <input id="player" maxlength="24" autocomplete="name" placeholder="Enter your name to begin">
+  <button class="btn full" id="start">START CHALLENGE&nbsp; →</button>
+  <p class="note">You have 60 seconds for all five questions. Each correct answer earns 20 points. Choose one option and keep moving!</p>
+</section>
+
+<section class="panel hide" id="game">
+  <div class="meta">
+    <div class="pill">PLAYER <b id="playerTag">—</b></div>
+    <div class="pill">TIME <b id="timer">60</b>s</div>
+    <div class="pill">SCORE <b id="score">0</b></div>
+  </div>
+  <div class="progress"><i id="bar"></i></div>
+  <div class="question-card">
+    <div class="qtype" id="qtype">RIDDLE 01 / 05</div>
+    <p class="qtext" id="qtext"></p>
+  </div>
+  <div class="options" id="options"></div>
+  <div class="feedback" id="feedback" aria-live="polite">
+    <div class="feedback-title" id="feedbackTitle"></div>
+    <div class="feedback-copy" id="feedbackCopy"></div>
+  </div>
+  <div class="next-wrap" id="nextWrap"><button class="btn full" id="next">NEXT QUESTION&nbsp; →</button></div>
+</section>
+
+<section class="panel hide center" id="result">
+  <div class="eyebrow">Challenge complete</div>
+  <h1>THAT'S THE<br><span>GRIPIT SPIRIT.</span></h1>
+  <div class="score" id="finalScore">0</div>
+  <div class="result-title" id="rank">GREAT EFFORT!</div>
+  <p class="result-copy" id="resultCopy"></p>
+  <div class="summary" id="review"></div>
+  <button class="btn full" id="share">SHARE MY SCORE&nbsp; ↗</button>
+  <button class="btn secondary full" id="again">PLAY AGAIN</button>
+  <p class="note">Your score is calculated on this device. Share it with the team and challenge someone to beat it!</p>
+</section>
+<div class="footer">THINK BOLD. MOVE FORWARD. · GRIPIT</div>
+</main>
+<script>
+const questions = [
+ {type:"THE OWNERSHIP TEST",q:"A project hits an unexpected roadblock. Everyone is waiting for someone to take charge. What will move things forward?",options:["Wait for detailed instructions","Take ownership and find the next step","Pass the problem to another team","Focus only on your own task"],answer:1,why:"Ownership means stepping up, taking responsibility and helping the bigger goal move forward."},
+ {type:"SPEED WITH PURPOSE",q:"A deadline is close. What does moving with velocity really mean?",options:["Rush and fix mistakes later","Stay busy so everyone sees the effort","Move with urgency, focus and clear priorities","Skip planning and hope for the best"],answer:2,why:"Velocity isn't just being fast. It's making focused progress without losing direction."},
+ {type:"THE COURAGE TO BE HONEST",q:"You spot a gap in a teammate's idea. What's the best way to help the team win?",options:["Stay quiet to avoid discomfort","Point it out in front of everyone","Dismiss the idea and move on","Share honest feedback respectfully and suggest an improvement"],answer:3,why:"Respectful candor means being honest, direct and thoughtful — because better conversations create better work."},
+ {type:"CRACK THE REAL PROBLEM",q:"The same issue keeps showing up, even after quick fixes. What's the smartest next move?",options:["Find the root cause and build a lasting solution","Keep applying the same quick fix","Wait until it becomes urgent","Work around it and don't tell anyone"],answer:0,why:"Solution intelligence is about understanding the real problem and creating a fix that lasts."},
+ {type:"THINK LIKE AN OWNER",q:"You notice a small change that could make GRIPIT better, but it's not part of your daily task. What do you do?",options:["Ignore it — it's outside my role","Wait for someone senior to notice","Take initiative and think about the bigger outcome","Mention it once and forget about it"],answer:2,why:"A founder's mindset means thinking beyond your job title and caring about the success of the whole business."}
+];
+
+let player="",index=0,score=0,time=60,tick=null,answered=false,results=[];
+const $=id=>document.getElementById(id);
+function show(id){["intro","game","result"].forEach(x=>$(x).classList.toggle("hide",x!==id));}
+function start(){
+ player=$("player").value.trim();
+ if(!player){$("player").focus();$("player").placeholder="Please enter your name first";return;}
+ index=0;score=0;time=60;results=[];answered=false;
+ $("playerTag").textContent=player;$("score").textContent="0";$("timer").textContent="60";
+ show("game");loadQuestion();clearInterval(tick);
+ tick=setInterval(()=>{time--; $("timer").textContent=time;if(time<=0)finish();},1000);
+}
+function loadQuestion(){
+ const q=questions[index];
+ $("qtype").textContent=`${q.type} · ${String(index+1).padStart(2,"0")} / 05`;
+ $("qtext").textContent=q.q;
+ $("bar").style.width=`${index/5*100}%`;
+ $("feedback").classList.remove("show");$("nextWrap").classList.remove("show");
+ $("options").innerHTML="";
+ answered=false;
+ q.options.forEach((option,i)=>{
+  const button=document.createElement("button");
+  button.className="option";
+  button.type="button";
+  button.innerHTML=`<span class="letter">${String.fromCharCode(65+i)}</span><span>${option}</span>`;
+  button.addEventListener("click",()=>choose(i));
+  $("options").appendChild(button);
+ });
+}
+function choose(choice){
+ if(answered)return;
+ answered=true;
+ const q=questions[index],correct=choice===q.answer;
+ if(correct){score+=20;$("score").textContent=score;}
+ results.push({question:q.type,correct});
+ [...$("options").children].forEach((button,i)=>{
+  button.disabled=true;
+  if(i===q.answer)button.classList.add("correct");
+  else if(i===choice)button.classList.add("wrong");
+ });
+ $("feedbackTitle").textContent=correct?"✓ CORRECT! NICE ONE!":"NOT QUITE — KEEP GOING!";
+ $("feedbackCopy").innerHTML=`<strong>${q.options[q.answer]}</strong> — ${q.why}`;
+ $("feedback").classList.add("show");
+ $("next").textContent=index===4?"SEE MY SCORE →":"NEXT QUESTION →";
+ $("nextWrap").classList.add("show");
+}
+function next(){
+ if(!answered)return;
+ index++;
+ if(index>=questions.length){finish();return;}
+ loadQuestion();
+}
+function finish(){
+ clearInterval(tick);
+ $("bar").style.width="100%";
+ $("finalScore").textContent=score;
+ $("rank").textContent=score===100?"BRAIN RUSH CHAMPION!":score>=60?"GRIPIT GO-GETTER!":score>=20?"MOMENTUM BUILDER!":"THE NEXT MOVE IS YOURS!";
+ $("resultCopy").textContent=score===100?"Five out of five! Sharp thinking and strong GRIPIT spirit.":score>=60?"Great work! Keep that curiosity and energy going.":score>=20?"Good effort! Every challenge is a chance to learn and grow.":"Every great run starts somewhere. Reset, refocus and give it another go!";
+ $("review").innerHTML=questions.map((q,i)=>`<div><span>${String(i+1).padStart(2,"0")} · ${q.type}</span><strong>${results[i]?(results[i].correct?"+20 PTS":"0 PTS"):"NOT ANSWERED"}</strong></div>`).join("");
+ show("result");
+}
+function share(){
+ const message=`I scored ${score}/100 in the GRIPIT Monday Brain Rush! 🧠💙💛\nCan you beat me? Think fast. Choose smart. Move forward.\n`;
+ const url=location.href;
+ if(navigator.share){navigator.share({title:"GRIPIT Monday Brain Rush",text:message,url}).catch(()=>{});}
+ else{window.open("https://wa.me/?text="+encodeURIComponent(message+url),"_blank","noopener");}
+}
+$("start").addEventListener("click",start);
+$("next").addEventListener("click",next);
+$("share").addEventListener("click",share);
+$("again").addEventListener("click",()=>{show("intro");$("player").value=player;});
+$("player").addEventListener("keydown",e=>{if(e.key==="Enter")start();});
+</script>
+</body>
+</html>
